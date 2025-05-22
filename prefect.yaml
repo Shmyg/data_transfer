@@ -18,5 +18,5 @@ deployments:
       cron: "0 3 * * *"
       timezone: "America/Regina"
     work_pool:
-      name: field_sftp
+      name: field-sftp
       type: serverless
