@@ -13,7 +13,7 @@ pull:
       repository: https://github.com/Shmyg/data_transfer.git
 
 deployments:
-  - name: field_sftp
+  - name: field-sftp
     schedule:
       cron: "0 3 * * *"
       timezone: "America/Regina"
