@@ -1,35 +1,22 @@
-# Welcome to your prefect.yaml file! You can use this file for storing and managing
-# configuration for deploying your flows. We recommend committing this file to source
-# control along with your flow code.
+name: sftp-download-flow
+entrypoint: prefect_get_file_via_sftp.py:ftp_flow
 
-# Generic metadata about this project
-name: data_transfer
-prefect-version: 3.4.1
+build:
+  - prefect.deployments.steps.set_working_directory:
+      directory: .
+  - prefect.deployments.steps.run_shell_script:
+      id: install-deps
+      script: pip install -r requirements.txt
 
-# build section allows you to manage and build docker images
-build: null
-
-# push section allows you to manage if and how this project is uploaded to remote locations
-push: null
-
-# pull section allows you to provide instructions for cloning this project in remote locations
 pull:
-- prefect.deployments.steps.git_clone:
-    repository: https://gitlab.com/MeraDevelopment/gos.git
-    branch: main
-    access_token: null
+  - prefect.deployments.steps.git_clone:
+      repository: https://github.com/Shmyg/data_transfer.git
 
-# the deployments section allows you to provide configuration for deploying flows
 deployments:
-- name: null
-  version: null
-  tags: []
-  description: null
-  schedule: {}
-  flow_name: null
-  entrypoint: null
-  parameters: {}
-  work_pool:
-    name: null
-    work_queue_name: null
-    job_variables: {}
+  - name: field_sftp
+    schedule:
+      cron: "0 3 * * *"
+      timezone: "America/Regina"
+    work_pool:
+      name: serverless-pool
+      type: serverless
